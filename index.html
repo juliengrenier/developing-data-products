@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Predicting wine quality using chemical analysis</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Predicting wine quality using chemical analysis">
+  <meta name="author" content="Julien Grenier">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Predicting wine quality using chemical analysis</h1>
+    <h2></h2>
+    <p>Julien Grenier<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Goal</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Using 2 data sets (from Cortez et al., 2009), we want to predict the wine quality (poor, standard or great) based on physicochemical attributes of the wine.</p>
+
+<h2>Usage</h2>
+
+<p>This application (...) can be use by wine makers (with the help of a chemist) to make sure their wine contains the right chemical attributes which will yield a great quality wine.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Data Summary</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Each data sets contains 11 predictors and quality output (provided as an average of 3 wine experts). To simplify our problem we remap the original 0-10 quality scale to a 3 levels quality scale (&quot;poor&quot;, &quot;standard&quot;, &quot;great&quot;).</p>
+
+<p>Red wines:</p>
+
+<pre><code>##     poor standard    great 
+##       63     1319      217
+</code></pre>
+
+<p>White wines:</p>
+
+<pre><code>##     poor standard    great 
+##      183     3655     1060
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Model strategy</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>We trained 2 random-forrest models, one for each wine colors. We splitted each datasets into 2 (70% train, 30% test) and used a repeated cross-validation (10-folds 10 times) re-sampling method and used Principal Component Analysis (PCA) in pre-processing.</p>
+
+<h2>Model Analysis</h2>
+
+<h3>Red wines</h3>
+
+<pre><code>##           Reference
+## Prediction poor standard great
+##   poor        0        0     0
+##   standard   18      385    33
+##   great       0       10    32
+</code></pre>
+
+<p>Accuracy 95% confidence interval is [0.8391, 0.901]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Model Analysis (continued)</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>White wines</h3>
+
+<pre><code>##           Reference
+## Prediction poor standard great
+##   poor        6        3     0
+##   standard   47     1052   162
+##   great       1       41   156
+</code></pre>
+
+<p>Accuracy 95% confidence interval is [0.8066, 0.846]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Goal'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Data Summary'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Model strategy'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Model Analysis (continued)'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
