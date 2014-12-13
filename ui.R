@@ -13,7 +13,7 @@ shinyUI(fluidPage(
   titlePanel("Predict wine quality"),
   sidebarLayout(
     sidebarPanel(
-      helpText("Adjust the sliders to the resulting values by your physicochemical tools."),
+      helpText("Adjust the sliders to the resulting values by your physicochemical tools to get a prediction of the wine quality."),
       radioButtons(inputId="color", label = h4("Wine Color"),
                           choices = list("Red", "White"), 
                           selected ="Red"),
@@ -33,7 +33,11 @@ shinyUI(fluidPage(
       h3("This wine quality will be:"),
       verbatimTextOutput("pred"),
       h3("Model Info:"),
-      verbatimTextOutput("model")
+      verbatimTextOutput("model"),
+      h5("Source code:"),
+      a(href="https://github.com/juliengrenier/developing-data-products", "Github Repository"),
+      h5("Relevant Paper:"),
+      h6("P. Cortez, A. Cerdeira, F. Almeida, T. Matos and J. Reis. Modeling wine preferences by data mining from physicochemical properties.\nIn Decision Support Systems, Elsevier, 47(4):547-553, 2009. ")
     )
   )
 ))
