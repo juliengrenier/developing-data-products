@@ -1,0 +1,93 @@
+---
+title       : Predicting wine quality using chemical analysis
+subtitle    : 
+author      : Julien Grenier
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## Goal
+
+Using 2 data sets (from Cortez et al., 2009), we want to predict the wine quality (poor, standard or great) based on physicochemical attributes of the wine.
+
+## Usage
+This application (...) can be use by wine makers (with the help of a chemist) to make sure their wine contains the right chemical attributes which will yield a great quality wine.
+
+--- .class #id 
+
+## Data Summary
+
+Each data sets contains 11 predictors and quality output (provided as an average of 3 wine experts). To simplify our problem we remap the original 0-10 quality scale to a 3 levels quality scale ("poor", "standard", "great").
+
+Red wines:
+```{r, echo=FALSE, cache=TRUE}
+redwines <- read.csv('../winequality-red.csv', sep=';')
+redwines$quality <- factor(ifelse(redwines$quality<5,"poor",ifelse(redwines$quality<7,"standard","great")))
+redwines$quality <- relevel(relevel(redwines$quality,ref = "standard" ), ref="poor")
+print(summary(redwines$quality))
+```
+
+White wines:
+```{r, echo=FALSE, cache=TRUE}
+whitewines <- read.csv('../winequality-white.csv', sep=';')
+whitewines$quality <- factor(ifelse(whitewines$quality<5,"poor",ifelse(whitewines$quality<7,"standard","great")))
+whitewines$quality <- relevel(relevel(whitewines$quality,ref = "standard" ), ref="poor")
+summary(whitewines$quality)
+```
+
+--- .class #id 
+
+## Model strategy
+
+We trained 2 random-forrest models, one for each wine colors. We splitted each datasets into 2 (70% train, 30% test) and used a repeated cross-validation (10-folds 10 times) re-sampling method and used Principal Component Analysis (PCA) in pre-processing.
+
+```{r, echo=FALSE, cache=TRUE, warning=FALSE,message=FALSE, }
+library(caret)
+library(doMC)
+doMC::registerDoMC(4)
+set.seed(54321)
+trControl <- trainControl(method='repeatedcv', number=10, repeats=10, allowParallel=TRUE)
+
+redInTrain <- createDataPartition(redwines$quality, p=0.7, list=FALSE)
+redwines.training <- redwines[redInTrain,]
+redwines.testing <- redwines[-redInTrain,]
+redwines.model <- train(quality ~., data=redwines.training, method='rf', preProcess=c("pca"), trControl=trControl)
+
+whiteInTrain <- createDataPartition(whitewines$quality, p=0.7, list=FALSE)
+whitewines.training <- whitewines[whiteInTrain,]
+whitewines.testing <- whitewines[-whiteInTrain,]
+whitewines.model <- train(quality ~., data=whitewines.training, method='rf', preProcess=c("pca"), trControl=trControl)
+```
+
+```{r, echo=FALSE, cache=TRUE}
+#Saving models so we don't have to train them in server.R
+
+save(redwines.model, file="redwines.model.rda")
+save(whitewines.model, file="whitewines.model.rda")
+```
+
+## Model Analysis
+
+### Red wines
+```{r, echo=FALSE, cache=TRUE}
+
+redwines.confusionMatrix <- confusionMatrix(predict(redwines.model, newdata=redwines.testing), redwines.testing$quality)
+print(redwines.confusionMatrix$table)
+```
+Accuracy 95% confidence interval is [`r redwines.confusionMatrix$overall[[3]]`, `r redwines.confusionMatrix$overall[[4]]`]
+
+--- .class #id 
+
+## Model Analysis (continued)
+
+### White wines
+```{r, echo=FALSE, cache=TRUE}
+
+whitewines.confusionMatrix <- confusionMatrix(predict(whitewines.model, newdata=whitewines.testing), whitewines.testing$quality)
+print(whitewines.confusionMatrix$table)
+```
+Accuracy 95% confidence interval is [`r whitewines.confusionMatrix$overall[[3]]`, `r whitewines.confusionMatrix$overall[[4]]`]
