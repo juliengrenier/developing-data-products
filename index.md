@@ -15,7 +15,7 @@ knit        : slidify::knit2slides
 Using 2 data sets (from Cortez et al., 2009), we want to predict the wine quality (poor, standard or great) based on physicochemical attributes of the wine.
 
 ## Usage
-This application (...) can be use by wine makers (with the help of a chemist) to make sure their wine contains the right chemical attributes which will yield a great quality wine.
+This application (http://juliengrenier.shinyapps.io/winequality/) can be use by wine makers (with the help of a chemist) to make sure their wine contains the right chemical attributes which will yield a great quality wine.
 
 --- .class #id 
 

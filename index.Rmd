@@ -15,7 +15,7 @@ knit        : slidify::knit2slides
 Using 2 data sets (from Cortez et al., 2009), we want to predict the wine quality (poor, standard or great) based on physicochemical attributes of the wine.
 
 ## Usage
-This application (...) can be use by wine makers (with the help of a chemist) to make sure their wine contains the right chemical attributes which will yield a great quality wine.
+This application (http://juliengrenier.shinyapps.io/winequality/) can be use by wine makers (with the help of a chemist) to make sure their wine contains the right chemical attributes which will yield a great quality wine.
 
 --- .class #id 
 
@@ -25,7 +25,7 @@ Each data sets contains 11 predictors and quality output (provided as an average
 
 Red wines:
 ```{r, echo=FALSE, cache=TRUE}
-redwines <- read.csv('../winequality-red.csv', sep=';')
+redwines <- read.csv('./winequality-red.csv', sep=';')
 redwines$quality <- factor(ifelse(redwines$quality<5,"poor",ifelse(redwines$quality<7,"standard","great")))
 redwines$quality <- relevel(relevel(redwines$quality,ref = "standard" ), ref="poor")
 print(summary(redwines$quality))
@@ -33,7 +33,7 @@ print(summary(redwines$quality))
 
 White wines:
 ```{r, echo=FALSE, cache=TRUE}
-whitewines <- read.csv('../winequality-white.csv', sep=';')
+whitewines <- read.csv('./winequality-white.csv', sep=';')
 whitewines$quality <- factor(ifelse(whitewines$quality<5,"poor",ifelse(whitewines$quality<7,"standard","great")))
 whitewines$quality <- relevel(relevel(whitewines$quality,ref = "standard" ), ref="poor")
 summary(whitewines$quality)
